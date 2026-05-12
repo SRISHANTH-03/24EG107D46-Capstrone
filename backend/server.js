@@ -27,7 +27,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
-      "https://24eg107d46-capstrone.vercel.app",
+      "24eg107d46-capstrone-bawsfnnk3-srishanth-03s-projects.vercel.app",
     ],
     credentials: true,
   })
