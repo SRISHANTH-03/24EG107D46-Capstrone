@@ -3,7 +3,7 @@
 // Inspired by apple.com — no gradients, no shadows, pure typography & spacing
 
 // ─── Layout ───────────────────────────────────────────
-export const pageBackground = "bg-white min-h-screen";
+export const pageBackground = "bg-[#f7f7fb] min-h-screen";
 export const pageWrapper = "max-w-5xl mx-auto px-6 py-16";
 export const section = "mb-14";
 
@@ -95,24 +95,6 @@ export const successClass =
   "bg-[#34c759]/[0.07] text-[#248a3d] border border-[#34c759]/20 rounded-xl px-4 py-3 text-sm";
 export const loadingClass = "text-[#0066cc]/60 text-sm animate-pulse text-center py-10";
 export const emptyStateClass = "text-center text-[#a1a1a6] py-16 text-sm";
-
-// ─── Comments ───────────────────────────────────────
-export const commentsWrapper = "mt-12 flex flex-col gap-6";
-
-export const commentCard = "bg-[#f5f5f7] rounded-2xl p-5 transition hover:bg-[#ebebf0]";
-
-export const commentHeader = "flex items-center justify-between mb-2";
-
-export const commentUser = "text-sm font-semibold text-[#1d1d1f]";
-
-export const commentTime = "text-xs text-[#a1a1a6]";
-
-export const commentText = "text-[#1d1d1f] text-sm leading-relaxed mt-1";
-
-export const avatar =
-  "w-9 h-9 rounded-full bg-[#0066cc]/10 text-[#0066cc] flex items-center justify-center text-sm font-semibold";
-
-export const commentUserRow = "flex items-center gap-3";
 
 // ─── Divider ──────────────────────────────────────────
 export const divider = "border-t border-[#e8e8ed] my-10";

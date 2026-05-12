@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router";
+import api from "../api/axiosClient";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../store/authStore";
 
 import {
@@ -24,22 +24,17 @@ function AuthorArticles() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  console.log("user in author profile", user);
-
   useEffect(() => {
     if (!user) return;
 
     const getAuthorArticles = async () => {
       try {
         setLoading(true);
-        //read articles of current author
-        let res = await axios.get(" http://localhost:4000/author-api/articles", { withCredentials: true });
+        const res = await api.get("/author-api/articles");
         if (res.status === 200) {
           setArticles(res.data.payload);
         }
-        //update articles state
       } catch (err) {
-        console.log(err);
         setError(err.response?.data?.error || "Failed to fetch articles");
       } finally {
         setLoading(false);
@@ -50,9 +45,7 @@ function AuthorArticles() {
   }, [user]);
 
   const openArticle = (article) => {
-    navigate(`/article/${article._id}`, {
-      state: article,
-    });
+    navigate(`/article/${article._id}`, { state: article });
   };
 
   const formatDate = (date) => {
@@ -73,16 +66,13 @@ function AuthorArticles() {
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
       {articles.map((article) => (
         <div key={article._id} className={`${articleCardClass} relative flex flex-col`}>
-          {/* Status Badge */}
           <span className={article.isArticleActive ? articleStatusActive : articleStatusDeleted}>
             {article.isArticleActive ? "ACTIVE" : "DELETED"}
           </span>
 
           <div className="flex flex-col gap-2">
             <p className={articleMeta}>{article.category}</p>
-
             <p className={articleTitle}>{article.title}</p>
-
             <p className={articleExcerpt}>{article.content.slice(0, 60)}...</p>
           </div>
 

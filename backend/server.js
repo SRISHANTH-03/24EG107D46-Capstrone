@@ -1,13 +1,18 @@
 import exp from "express";
 import { config } from "dotenv";
 import { connect } from "mongoose";
+import path from "path";
+import { fileURLToPath } from "url";
 import { userApp } from "./APIs/UserAPI.js";
 import { authorApp } from "./APIs/AuthorAPI.js";
 import { adminApp } from "./APIs/AdminAPI.js";
 import { commonApp } from "./APIs/CommonAPI.js";
 import cookieParser from "cookie-parser";
 import cors from 'cors'
-config();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+config({ path: path.resolve(__dirname, "../.env") });
 
 //create express app
 const app = exp();

@@ -1,4 +1,4 @@
-import { createBrowserRouter, RouterProvider } from "react-router";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import RootLayout from "./components/RootLayout";
 import Home from "./components/Home";
 import Register from "./components/Register";
@@ -15,77 +15,85 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import AdminProfile from "./components/AdminProfile";
 
 function App() {
-  const routerObj = createBrowserRouter([
+  const routerObj = createBrowserRouter(
+    [
+      {
+        path: "/",
+        element: <RootLayout />,
+        children: [
+          {
+            index: true,
+            element: <Home />,
+          },
+          {
+            path: "register",
+            element: <Register />,
+          },
+          {
+            path: "login",
+            element: <Login />,
+          },
+          {
+            path: "user-profile",
+            element: (
+              <ProtectedRoute allowedRoles={["USER"]}>
+                <UserProfile />
+              </ProtectedRoute>
+            ),
+          },
+          {
+            path: "author-profile",
+            element: (
+              <ProtectedRoute allowedRoles={["AUTHOR"]}>
+                <AuthorProfile />
+              </ProtectedRoute>
+            ),
+            children: [
+              {
+                index: true,
+                element: <AuthorArticles />,
+              },
+              {
+                path: "articles",
+                element: <AuthorArticles />,
+              },
+              {
+                path: "write-article",
+                element: <WriteArticles />,
+              },
+            ],
+          },
+          {
+            path: "admin-profile",
+            element: (
+              <ProtectedRoute allowedRoles={["ADMIN"]}>
+                <AdminProfile />
+              </ProtectedRoute>
+            ),
+          },
+          {
+            path: "article/:id",
+            element: <ArticleByID />,
+          },
+          {
+            path: "edit-article",
+            element: <EditArticle />,
+          },
+          {
+            path: "unauthorized",
+            element: <Unauthorized />,
+          },
+          {
+            path: "*",
+            element: <h1>404 - Page Not Found</h1>,
+          },
+        ],
+      },
+    ],
     {
-      path: "/",
-      element: <RootLayout />,
-      children: [
-        {
-          path: "",
-          element: <Home />,
-        },
-        {
-          path: "register",
-          element: <Register />,
-        },
-        {
-          path: "login",
-          element: <Login />,
-        },
-        {
-          path: "user-profile",
-          element: (
-            <ProtectedRoute allowedRoles={["USER"]}>
-              <UserProfile />
-            </ProtectedRoute>
-          ),
-        },
-        {
-          path: "author-profile",
-          element: (
-            <ProtectedRoute allowedRoles={["AUTHOR"]}>
-              <AuthorProfile />
-            </ProtectedRoute>
-          ),
-
-          children: [
-            {
-              index: true,
-              element: <AuthorArticles />,
-            },
-            {
-              path: "articles",
-              element: <AuthorArticles />,
-            },
-            {
-              path: "write-article",
-              element: <WriteArticles />,
-            },
-          ],
-        },
-        {
-          path: "admin-profile",
-          element: (
-            <ProtectedRoute allowedRoles={["ADMIN"]}>
-              <AdminProfile />
-            </ProtectedRoute>
-          ),
-        },
-        {
-          path: "article/:id",
-          element: <ArticleByID />,
-        },
-        {
-          path: "edit-article",
-          element: <EditArticle />,
-        },
-        {
-          path: "unauthorized",
-          element: <Unauthorized />,
-        },
-      ],
-    },
-  ]);
+      basename: "/atp-week-7-blog-app-", // ✅ only needed if you use that URL
+    }
+  );
 
   return (
     <div>

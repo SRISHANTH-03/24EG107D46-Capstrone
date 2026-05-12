@@ -12,10 +12,10 @@ import {
   linkClass,
   loadingClass,
 } from "../styles/common";
-import { NavLink, useNavigate, useLocation } from "react-router";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../store/authStore";
 import { useEffect } from "react";
-import {toast} from 'react-hot-toast'
+import { toast } from "react-hot-toast";
 
 function Login() {
   const {
@@ -25,65 +25,52 @@ function Login() {
   } = useForm();
 
   const navigate = useNavigate();
-  //get state from auth store
   const { login, currentUser, loading, error, isAuthenticated } = useAuth((state) => state);
-  //on user login
+
   const onUserLogin = (userCredObj) => {
-    //call login() of auth store
     login(userCredObj);
   };
 
   useEffect(() => {
-    //navigation logic
-    if (isAuthenticated === true) {
-      if (currentUser.role === "USER") {
-        //show cuccess toast
-        toast.success("Login success and redirecting to User Profile",{duration:2000})
-        navigate("/user-profile");
-      }
-      if (currentUser.role === "AUTHOR") {
-         toast.success("Login success and redirecting to Author Profile",{duration:2000})
-        navigate("/author-profile");
-      }
-      if (currentUser.role === "ADMIN") {
-         toast.success("Login success and redirecting to Admin Profile",{duration:2000})
-        navigate("/admin-profile");
-      }
-    }
-  }, [isAuthenticated]);
+    if (!isAuthenticated) return;
 
-  //deal with loading
+    const destination =
+      currentUser?.role === "AUTHOR"
+        ? "/author-profile"
+        : currentUser?.role === "ADMIN"
+        ? "/admin-profile"
+        : "/user-profile";
+
+    toast.success("Login successful. Redirecting...", { duration: 1800 });
+    navigate(destination);
+  }, [isAuthenticated, currentUser, navigate]);
+
   if (loading) {
-    return <p className={loadingClass}>Loading....</p>;
+    return <p className={loadingClass}>Checking credentials...</p>;
   }
 
   return (
     <div className={`${pageBackground} flex items-center justify-center py-16 px-4`}>
       <div className={formCard}>
-        {/* Title */}
         <h2 className={formTitle}>Sign In</h2>
 
-        {/* API error */}
         {error && <p className={errorClass}>{error}</p>}
 
         <form onSubmit={handleSubmit(onUserLogin)}>
-          {/* Email */}
           <div className={formGroup}>
             <label className={labelClass}>Email</label>
             <input
               type="email"
-              placeholder="you@example.com"
+              placeholder="hello@example.com"
               className={inputClass}
               {...register("email", {
                 required: "Email is required",
-
                 validate: (value) => value.trim().length > 0 || "Email cannot be empty",
               })}
             />
             {errors.email && <p className={errorClass}>{errors.email.message}</p>}
           </div>
 
-          {/* Password */}
           <div className={formGroup}>
             <label className={labelClass}>Password</label>
             <input
@@ -98,22 +85,13 @@ function Login() {
             {errors.password && <p className={errorClass}>{errors.password.message}</p>}
           </div>
 
-          {/* Forgot password */}
-          <div className="text-right -mt-2 mb-4">
-            <a href="/forgot-password" className={`${linkClass} text-xs`}>
-              Forgot password?
-            </a>
-          </div>
-
-          {/* Submit */}
           <button type="submit" className={submitBtn}>
             Sign In
           </button>
         </form>
 
-        {/* Footer */}
         <p className={`${mutedText} text-center mt-5`}>
-          Don't have an account?{" "}
+          Don’t have an account?{' '}
           <NavLink to="/register" className={linkClass}>
             Create one
           </NavLink>

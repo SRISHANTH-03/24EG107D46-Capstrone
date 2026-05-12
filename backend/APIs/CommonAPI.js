@@ -27,7 +27,7 @@ commonApp.post("/users", upload.single("profileImageUrl"), async (req, res, next
     }
 
     //Upload image to cloudinary from memoryStorage
-    if (req.file && process.env.API_KEY) {
+    if (req.file && process.env.CLOUDINARY_API_KEY) {
       cloudinaryResult = await uploadToCloudinary(req.file.buffer);
     }
 
