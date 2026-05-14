@@ -25,10 +25,7 @@ const app = exp();
 // CORS configuration
 app.use(
   cors({
-    origin: [
-      "http://localhost:5173",
-      "24eg107d46-capstrone-bawsfnnk3-srishanth-03s-projects.vercel.app",
-    ],
+    origin: [/^http:\/\/localhost:\d+$/, "24eg107d46-capstrone-bawsfnnk3-srishanth-03s-projects.vercel.app"],
     credentials: true,
   })
 );

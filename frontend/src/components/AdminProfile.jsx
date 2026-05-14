@@ -1,9 +1,5 @@
 import { useAuth } from "../store/authStore";
 import { useNavigate } from "react-router-dom";
-import {
-  loadingClass,
-  errorClass,
-} from "../styles/common.js";
 
 function AdminProfile() {
   const logout = useAuth((state) => state.logout);

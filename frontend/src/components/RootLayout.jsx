@@ -10,7 +10,7 @@ function RootLayout() {
 
   useEffect(() => {
     checkAuth();
-  }, []);
+  }, [checkAuth]);
 
   return (
     <div className={`${pageBackground} min-h-screen flex flex-col`}>
